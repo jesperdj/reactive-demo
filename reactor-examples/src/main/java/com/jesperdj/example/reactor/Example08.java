@@ -31,11 +31,7 @@ public class Example08 {
                 });
 
         Mono<FakeHttpResponse> mono2 = callWebservice(new FakeHttpRequest("http://two.com"))
-                .timeout(Duration.ofSeconds(1))
-                .onErrorResume(TimeoutException.class, exception -> {
-                    LOG.warn("Second webservice timed out");
-                    return Mono.empty();
-                });
+                .timeout(Duration.ofSeconds(1));
 
         Mono<FakeHttpResponse> responseMono = mono1.switchIfEmpty(mono2);
 
