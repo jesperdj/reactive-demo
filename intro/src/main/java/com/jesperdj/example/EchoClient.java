@@ -1,4 +1,4 @@
-package com.jesperdj.example.blocking;
+package com.jesperdj.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,10 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-public class SimpleSocketClient {
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleSocketClient.class);
+public class EchoClient {
+    private static final Logger LOG = LoggerFactory.getLogger(EchoClient.class);
 
-    private static final String MESSAGE = "Hello Blocking World";
+    private static final String MESSAGE = "Hello World";
 
     public static void main(String[] args) throws IOException {
         LOG.info("Opening connection");

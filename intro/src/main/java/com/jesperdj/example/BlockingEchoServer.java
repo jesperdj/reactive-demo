@@ -1,4 +1,4 @@
-package com.jesperdj.example.blocking;
+package com.jesperdj.example;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +12,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-public class SimpleSocketServer {
-    private static final Logger LOG = LoggerFactory.getLogger(SimpleSocketServer.class);
+public class BlockingEchoServer {
+    private static final Logger LOG = LoggerFactory.getLogger(BlockingEchoServer.class);
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(7000);
