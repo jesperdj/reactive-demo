@@ -16,7 +16,8 @@ public class Example05 {
         Flux<Long> ticks = Flux.interval(Duration.ofSeconds(1));
 
         // Fluxes are asynchronous: see that the subscriber is called on a different thread
-        ticks.subscribe(n -> LOG.info("{}", n));
+        ticks.take(10)
+                .subscribe(n -> LOG.info("{}", n));
 
         Thread.sleep(11000L);
     }
