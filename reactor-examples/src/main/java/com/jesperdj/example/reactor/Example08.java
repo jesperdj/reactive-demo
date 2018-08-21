@@ -21,7 +21,7 @@ public class Example08 {
         return Mono.just(request)
                 .doOnNext(req -> LOG.info("Webservice called: {}", req.getUrl()))
                 .delayElement(Duration.ofMillis(latency))
-                .map(z -> new FakeHttpResponse(request.getUrl(), 200));
+                .map(req -> new FakeHttpResponse(req.getUrl(), 200));
     }
 
     public static void main(String[] args) throws InterruptedException {
