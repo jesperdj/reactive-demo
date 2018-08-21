@@ -18,11 +18,15 @@ public class Example08 {
         Random random = new Random();
         int latency = random.nextInt(1900) + 100;
 
-        return Mono.delay(Duration.ofMillis(latency))
+        return Mono.just(request)
+                .doOnNext(req -> LOG.info("Webservice called: {}", req.getUrl()))
+                .delayElement(Duration.ofMillis(latency))
                 .map(z -> new FakeHttpResponse(request.getUrl(), 200));
     }
 
     public static void main(String[] args) throws InterruptedException {
+        LOG.info("Preparing webservice calls");
+
         Mono<FakeHttpResponse> mono1 = callWebservice(new FakeHttpRequest("http://one.com"))
                 .timeout(Duration.ofSeconds(1))
                 .onErrorResume(TimeoutException.class, exception -> {
@@ -35,9 +39,10 @@ public class Example08 {
 
         Mono<FakeHttpResponse> responseMono = mono1.switchIfEmpty(mono2);
 
+        LOG.info("Going to subscribe");
         responseMono.subscribe(
                 response -> LOG.info("Response: {}", response),
-                error -> LOG.error("Error", error),
+                error -> LOG.error("Error: {}", error.getMessage()),
                 () -> LOG.info("Complete")
         );
 

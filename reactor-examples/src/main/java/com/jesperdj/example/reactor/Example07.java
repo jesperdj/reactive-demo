@@ -17,16 +17,20 @@ public class Example07 {
         Random random = new Random();
         int latency = random.nextInt(900) + 100;
 
-        return Mono.delay(Duration.ofMillis(latency))
+        return Mono.just(request)
+                .doOnNext(req -> LOG.info("Webservice called: {}", req.getUrl()))
+                .delayElement(Duration.ofMillis(latency))
                 .map(z -> new FakeHttpResponse(request.getUrl(), 200));
     }
 
     public static void main(String[] args) throws InterruptedException {
+        LOG.info("Preparing webservice calls");
         Mono<FakeHttpResponse> mono1 = callWebservice(new FakeHttpRequest("http://one.com"));
         Mono<FakeHttpResponse> mono2 = callWebservice(new FakeHttpRequest("http://two.com"));
 
         Mono<FakeHttpResponse> responseMono = Mono.first(mono1, mono2);
 
+        LOG.info("Going to subscribe");
         responseMono.subscribe(response -> LOG.info("Response: {}", response));
 
         Thread.sleep(2000L);
